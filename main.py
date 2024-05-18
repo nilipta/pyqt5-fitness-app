@@ -95,6 +95,7 @@ class FitTrack(QWidget):
         self.delete_btn.clicked.connect(self.delete_workout)
         self.submit_btn.clicked.connect(self.calculate_calories)
         self.dark_mode.stateChanged.connect(self.apply_styles)
+        self.clear_btn.clicked.connect(self.reset)
 
     def load_table(self):
         self.table.setRowCount(0)
@@ -275,7 +276,13 @@ class FitTrack(QWidget):
     def toggle_dark(self):
         self.apply_styles()
 
-    
+    def reset(self):
+        self.date_box.setDate(QDate.currentDate())
+        self.kal_box.clear()
+        self.distance_box.clear()
+        self.description.clear()
+        self.figure.clear()
+        self.canvas.draw()
 
 #Database
 db = QSqlDatabase.addDatabase("QSQLITE")
