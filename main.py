@@ -56,7 +56,7 @@ class FitTrack(QWidget):
 
         self.sub_row1.addWidget(QLabel("Date:"))
         self.sub_row1.addWidget(self.date_box)
-        self.sub_row2.addWidget(QLabel("Calories"))
+        self.sub_row2.addWidget(QLabel("Calories:"))
         self.sub_row2.addWidget(self.kal_box)
         self.sub_row3.addWidget(QLabel("KM:"))
         self.sub_row3.addWidget(self.distance_box)
@@ -94,6 +94,7 @@ class FitTrack(QWidget):
         self.add_btn.clicked.connect(self.add_workout)
         self.delete_btn.clicked.connect(self.delete_workout)
         self.submit_btn.clicked.connect(self.calculate_calories)
+        self.dark_mode.stateChanged.connect(self.apply_styles)
 
     def load_table(self):
         self.table.setRowCount(0)
@@ -195,21 +196,23 @@ class FitTrack(QWidget):
                 font-size: 14px;
             }         
 
-            QLineEdit, QComboBox, QDateEdit, QPushButton {
+            QLineEdit, QComboBox, QDateEdit {
                 background-color: #b8c9e1;
                 color: #333;
-                border: 1px solid $444;
+                border: 1px solid #444;
                 padding: 5px;
             }
+                           
             QTableWidget {
                 background-color: #b8c9e1;
                 color: #333;
-                border: 1px solid $444;
+                border: 1px solid #444;
                 selection-background-color: #ddd;
             }
+                           
             QPushButton {
                 background-color: #4caf50;
-                color: #333;
+                color: #fff;
                 border: none;
                 padding: 8px 16px;
                 font-size: 14px;
@@ -219,6 +222,60 @@ class FitTrack(QWidget):
             }
              """
         )
+
+        figure_color = "#b8c9e1"
+        self.figure.patch.set_facecolor(figure_color)
+        self.canvas.setStyleSheet(f"background-color:{figure_color}")
+
+        if(self.dark_mode.isChecked):
+            self.setStyleSheet(""" 
+                FitnessApp {
+                    background-color: #222222;            
+                }
+                                
+                QLineEdit, QComboBox, QDateEdit {
+                    background-color: #222222;
+                    color: #eeeeee;
+                    border: 1px solid #444;
+                    padding: 5px;
+                }
+                                
+                QLabel {
+                    background-color: #222222;
+                    color: #eeeeee;
+                    font-size: 5px;
+                }    
+                            
+                QTableWidget {
+                    background-color: #444444;
+                    color: #eeeeee;
+                }
+                                
+                QCheckBox {
+                    color: #eeeeee;
+                }
+                            
+                QPushButton {
+                    background-color: #40484c;
+                    color: #fff;
+                    border: none;
+                    padding: 8px 16px;
+                    font-size: 14px;
+                }
+                                
+                QPushButton:hover {
+                    background-color: #444d4f;
+                }
+            """)
+
+            figure_color = "#40484c"
+            self.figure.patch.set_facecolor(figure_color)
+            self.canvas.setStyleSheet(f"background-color:{figure_color}")
+
+    def toggle_dark(self):
+        self.apply_styles()
+
+    
 
 #Database
 db = QSqlDatabase.addDatabase("QSQLITE")
