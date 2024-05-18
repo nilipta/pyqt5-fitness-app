@@ -87,6 +87,7 @@ class FitTrack(QWidget):
         self.master_layout.addLayout(self.col2, 70)
         self.setLayout(self.master_layout)
 
+        self.apply_styles()
         self.load_table()
  
     def button_click(self):
@@ -175,12 +176,49 @@ class FitTrack(QWidget):
             ax.set_title("Distance Vs. Calories")
             ax.set_xlabel("Distance")
             ax.set_ylabel("Calories")
+            cbar = ax.figure.colorbar(ax.collections[0], label="Normalized Calories")
             ax.legend()
             self.canvas.draw()
 
         except Exception as e:
             print(f"error:{e}")
             QMessageBox.warning(self, "Error", "Please enter some data first")
+
+    def apply_styles(self):
+        self.setStyleSheet(""" 
+            QWidget {
+                background-color: #b8c9e1;
+            }   
+
+            QLabel {
+                color: #333;
+                font-size: 14px;
+            }         
+
+            QLineEdit, QComboBox, QDateEdit, QPushButton {
+                background-color: #b8c9e1;
+                color: #333;
+                border: 1px solid $444;
+                padding: 5px;
+            }
+            QTableWidget {
+                background-color: #b8c9e1;
+                color: #333;
+                border: 1px solid $444;
+                selection-background-color: #ddd;
+            }
+            QPushButton {
+                background-color: #4caf50;
+                color: #333;
+                border: none;
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            QPushButton:hover {
+                background-color: #45a049;
+            }
+             """
+        )
 
 #Database
 db = QSqlDatabase.addDatabase("QSQLITE")
