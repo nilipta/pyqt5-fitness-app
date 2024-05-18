@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt,QDate
-from PyQt5.QtWidgets import QApplication,QWidget,QLabel, QPushButton,QVBoxLayout,QHBoxLayout,QMessageBox,QTableWidget,QDateEdit,QLineEdit, QCheckBox
+from PyQt5.QtWidgets import QHeaderView,QApplication,QWidget,QLabel, QPushButton,QVBoxLayout,QHBoxLayout,QMessageBox,QTableWidget,QDateEdit,QLineEdit, QCheckBox
 from PyQt5.QtSql import QSqlDatabase,QSqlQuery
 
 import matplotlib.pyplot as plt
@@ -36,6 +36,9 @@ class FitTrack(QWidget):
         self.dark_mode = QCheckBox("Dark Mode")
 
         self.table = QTableWidget()
+        self.table.setColumnCount(5)
+        self.table.setHorizontalHeaderLabels(["Id", "Date","Calories","Distance","Description"])
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
@@ -76,8 +79,11 @@ class FitTrack(QWidget):
 
         self.col1.addLayout(btn_row1)
         self.col1.addLayout(btn_row2)
+        self.col2.addWidget(self.canvas)
+        self.col2.addWidget(self.table)
 
-        self.master_layout.addLayout(self.col1)
+        self.master_layout.addLayout(self.col1, 30)
+        self.master_layout.addLayout(self.col2, 70)
         self.setLayout(self.master_layout)
  
 
