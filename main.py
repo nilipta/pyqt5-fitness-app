@@ -10,7 +10,12 @@ from sys import exit
 class FitTrack(QWidget):
     def __init__(self):
         super().__init__()
+        self.settings()
         self.initUI()
+
+    def settings(self):
+        self.setWindowTitle("FitTrack")
+        self.resize(800,600)
 
     def initUI(self):
         self.date_box = QDateEdit() 
